@@ -14,11 +14,12 @@ int main(){
         for (i = 0; i , strlen (passwd); i++){
             
             if (passwd[i]>='A' && passwd[i]<='Z'){
-                
+                //Encryt the UPPER CASE letters 
                 passwd[i] = ((passwd[i]-'A')+move)%26+ 'A';  
             }
             else if (passwd[i]>='a' && passwd[i]<='z'){ 
-                passwd[i] = passwd[i]-32;  //Find the lower case letters and change it to UPPER CASE letters
+                //Find the lower case letters and change it to UPPER CASE letters
+                passwd[i] = passwd[i]-32; 
                 passwd[i] = ((passwd[i]-'A')+move)%26+ 'A';
             }    
         }
