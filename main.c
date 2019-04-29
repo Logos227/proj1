@@ -8,25 +8,26 @@ Engg1003 Assignment 1
 #include <string.h>
 #include <stdlib.h>
 
-int CaesarEn(const char *message, /*char *output,//seem dont need it */ int rotationAmount);//caesar cipher encryption function prototype
+int CaesarEn(const char *message, char *output, int rotationAmount);//caesar cipher encryption function prototype
 int CaesarDe(const char *message, char *output, int rotationAmount);//caesar cipher decryption function prototype
-int SubEn(const char *message, char *output, char *key); 
-int SubDe(const char *message, char *output, char *key); 
+int SubEn(const char *message, char *output, const char *key); 
+int SubDe(const char *message, char *output, const char *key); 
 
 //int SubEn(char AlphabetSub[]);     //substitution Encryption function prototype
 //int SubDe(char DEAlphabetSub[]);   //substitution Decryption function prototype
 //int SetAlphabetSub(char SubTable[],char DESubTable[]);// set alphabet substitution function prototype
 
 int mian(){
-    
-    FILE *input, *output;
-    
-    output = fopen("output.txt", "w");
-    input = fopen("input.txt", "r");
-   if (input == NULL)
-      perror("File Input");
-
-   rotationAmount = strtol(key, &ptr, 10);
+    FILE *inputCode, *outputCode;
+    inputCode = fopen("inputCode.txt", "r");
+    outputCode = fopen("outputCode.txt", "w");
+    if (inputCode == NULL)
+    perror("File Input");
+    int i,j,k,choice;
+    float rotationAmount;
+    char message[1024],output[1024],key[30];
+    char *point;
+    rotationAmount = strtol(key, &point, 10);
     
     
     //make a selection menu for console 
@@ -35,7 +36,6 @@ int mian(){
     printf("2. Decryption with a rotation cipher key:\n");
     printf("3. Encryption with a substitution cipher given plain text and key:\n");
     printf("4. Decryption with a substitution cipher given plain text and key:\n");
-    char choice;
     scanf ("%c",&choice);
     while ((getchar()) != '\n');
     switch(choice){
@@ -43,35 +43,26 @@ int mian(){
             printf("You have chosen rotation cipher encryption\n");
             printf("Enter a key (integer between [0,25])\n");
             scanf("%d", &rotationAmount);
-            FILE *input, *output;
-            input = fopen("input.txt", "r");
-            output = fopen("output.txt", "w");
-            if (input == NULL)
-            perror("File Input");
-            char message,outputCode;
-            while((message = fgetc (input)) != EOF){
-                outputCode=CaesarEn(message);
-                printf("%c", outputCode);
-        }
-        printf("\n");
-        
-        
+            CaesarEn(message, output, rotationAmount);
+            printf("%c", output);
+            printf("\n");
+
         case 2:
             printf("You have chosen rotation cipher decryption\n");
             printf("1. Decipher with key\n");
             printf("2. Decipher without key\n");
             scanf("%d", &choice);
-            if (selector != 1 && selector != 2) {
+            if (choice != 1 && choice != 2) {
                printf("\nPlease select 1 or 2: \n");
-               scanf("%d", &selector);
+               scanf("%d", &choice);
             }
             if (choice == 1) { 
-               printf("Key: %d\n\n", rotationAmount);
+               printf("Key: %d\n", rotationAmount);
                CaesarDe(message, output, rotationAmount);
                break;
                 
             }
-            if (choice == 2) { /
+            if (choice == 2) { 
                rotationAmount = 0;
                CaesarDe(message, output, rotationAmount);
                
@@ -81,114 +72,93 @@ int mian(){
                 }
                 printf("Key: %d\n", rotationAmount);
                 printf("\n");
+                printf("Message Text: \n");
+                for (i = 0; message[i] != '\0'; i++) {
+                    printf("%c", message[i]);
+                    
+                }
+                printf("\n");
+                printf("Output Text: \n");
+                for (i = 0; message[i] != '\0'; i++) {
+                    printf("%c", output[i]);
+                    fprintf(output, "%c", output[i]);
+                    
+                }
+                printf("\n");
                 
             }
            
          
          case 3:
-         error = encryptSubstitutionCipher(messageText, key, outputText);
-         if (error == 1)
-            exit(error);
+         k = SubEn(message, output, key);
+         if (k == 1)
+            exit(k);
          printf("\nKey: %s\n\n", key);
-         break;
+         printf("Message Text: \n");
+         for (i = 0; message[i] != '\0'; i++) {
+             printf("%c", message[i]);
+             
+         }
+         printf("\n");
+         printf("Output Text: \n");
+         for (i = 0; message[i] != '\0'; i++) {
+             printf("%c", output[i]);
+             fprintf(output, "%c", output[i]);
+             
+         }
+         printf("\n");
       case 4:
          
-         error = decryptSubstitutionCipher(messageText, key, outputText);
-         if (error == 1)
-            exit(error);
-         printf("\nKey: %s\n\n", key);
-         break;
+         k = SubDe(message, output, *key);
+         if (k == 1)
+            exit(k);
+         printf("\nKey: %s\n", key);
+         printf("\nKey: %s\n", key);
+         printf("Message Text: \n");
+         for (i = 0; message[i] != '\0'; i++) {
+             printf("%c", message[i]);
+             
+         }
+         printf("\n");
+         printf("Output Text: \n");
+         for (i = 0; message[i] != '\0'; i++) {
+             printf("%c", output[i]);
+             fprintf(output, "%c", output[i]);
+             
+         }
+         printf("\n");
    }
-                
-        
-        
-        
-    }
-    
-    //while(choice <'a' || choice > 'd')
-    
-
-    
-    
-    //function
-    //void encryption(char message[100], char encrypted[100], int key)
-    /*
-    void encryption(char message[100], char encrypted[100], int key){
-   // declare variables here
-   for(i = 0; message[i] != '\0'; ++i){
-    symbol = message[i];
-
-    if(symbol >= 'a' && symbol <= 'z'){
-        symbol = symbol + key;
-
-        if(symbol > 'z'){
-            symbol = symbol - 'z' + 'a' - 1;
-        }
-
-        encrypted[i] = symbol;
-    }
-    else if(symbol >= 'A' && symbol <= 'Z'){
-        symbol = symbol + key;
-
-        if(symbol > 'Z'){
-            symbol = symbol - 'Z' + 'A' - 1;
-        }
-
-        encrypted[i] = symbol;
-    }
-    else if(symbol >= '0' && symbol <= '9'){
-        symbol = symbol + key;
-
-        if(symbol > '9'){
-            symbol = symbol - '9' + '1' - 1;    
-        }
-
-        encrypted[i] = symbol;
-    }
-  }
+   
+   fclose(stdin);
+   return k;
 }
-    */
-  //till here is the function of caeser, dont know why change symbol and change the UP to Low letter
-  //below is change my provious caeser code as function (testing)
+
+   
   // below should connet with #include
     //int CaesarEn(const char *message, char *output, int rotationAmount);//caesar cipher encryption function prototype
     //this should be the main code
     
     
-    int CaesarEn(const char *message,/*char *output,//这个好像不用*/ int rotationAmount){//这里没分号哦
-    // not sure if here should agg "char message[100], encrypted[100];"
+    int CaesarEn(const char *message,char *output, int rotationAmount){//这里没分号哦
     int i;
-    //上一行j, k, t;dont know why add jkt as "变量"in int 
-    //Task1:Encryption of a message with a rotation cipher given the message text and rotation amount
-    //while(1){   //为什么要加while(1)呢
-        //next  4 code should in main code 
-        //printf("Enter message to be encrypted:");
-        //gets(message);
-        //printf("Enter shift amount(1-25):");
-        //scanf("%d%*c",&rotationAmount);
-        for (i = 0; i < strlen (message); i++){
+    for (i = 0; i < strlen (message); i++){
+        if (message[i]>='A' && message[i]<='Z'){
+            //Encryt the UPPER CASE letters 
+            message[i] = ((message[i]-'A')+rotationAmount)%26+ 'A';
             
-            if (message[i]>='A' && message[i]<='Z'){
-                //Encryt the UPPER CASE letters 
-                message[i] = ((message[i]-'A')+move)%26+ 'A';  
-            }
-            else if (message[i]>='a' && message[i]<='z'){ 
-                //Find the lower case letters and change it to UPPER CASE letters
-                message[i] = message[i]-32; 
-                message[i] = ((message[i]-'A')+move)%26+ 'A';
-            }    
         }
-        return 0;
+        else if (message[i]>='a' && message[i]<='z'){ 
+            //Find the lower case letters and change it to UPPER CASE letters
+            message[i] = message[i]-32; 
+            message[i] = ((message[i]-'A')+rotationAmount)%26+ 'A';
+        }    
+    }
+    return 0;
+        
     }
     
     
-    int CaesarDe(const char *message, /*char *output,//这个好像不用*/ int rotationAmount){
-        //Task2:Decryption of a message encrypted with a rotation cipher given cipher text and rotation amount
-        //next  4 code should in main code 
-        //printf("Enter message to be dencrypted:");
-        //gets(message);
-        //printf("Enter shift amount(1-25):");
-        //scanf("%d%*c",&rotationAmount);
+    int CaesarDe(const char *message, *char *output, int rotationAmount){
         int i;
         for (i = 0; i < strlen (message); i++){
             
@@ -319,77 +289,4 @@ int mian(){
         printf("\n");
    }
    */
-  /*
   
-  // here is the provious draft code with chinese comments  
-   void SetAlphabetSub(char SubTable[],char DESubTable[]){
-       int i;
-       char j;
-       char s;//password
-       printf("Please enter password(UPPER WORDS) ");
-       gets(pasword); //读入密钥
-       printf("%s",s);
-       printf(" alphabet substitution is: ");
-       char s1;    
-       for(i = 0 ; i < s.length(); i++){ //对密钥进行处理（去掉空格和重复的字符）
-       bool sign =0;  //标志变量
-       if(s[i] >= 'A' && s[i] <='Z'){
-           for(int j = 0; j < s1.length(); j++){
-               if(s[i] == s1[j]){
-                   sign = 1;
-                   break;
-                   
-               }
-               
-           }
-           if(sign == 0) s1 = s1 + s[i];
-           else sign = 0;
-           
-       }
-           
-       }
-       for( j ='a';j<='z';j++){
-           printf("%s",j);
-           printf("\n");
-       }
-       char ch='A';
-       for( i = 'a' ;i <= 'z'; i++){//该循环利用密钥得到置换表
-       if(i < 'a' + s1.length()){//前面直接用s1代替
-       SubTable[i] = s1[i-'a']; 
-           
-       }
-       else{ //后面将剩下的"贴"上去
-       for(int j = 'a'; j < 'a' + s1.length(); j++)
-       {
-           if(ch == SubTable[j])
-           {
-               ch++;
-               j= 'a'; //每次都从头开始搜索
-               continue;
-               
-           }
-           
-       }
-       SubTable[i] = ch;
-       ch++;
-           
-       }
-       printf("%s",SubTable[i]); //同时输出置换表
-       }
-       printf("/n");
-       for( i='a'; i<= 'z'; i++) //该循环利用置换表得到反置换表
-       {
-           DESubTable[ SubTable[i] ] = i;
-           
-       }
-       for( i='A'; i<= 'Z'; i++) //输出反置换表
-       {
-           printf("%s",DESubTable[i]);
-           
-       }
-       printf("/n");
-       
-   }
-    
-} 
-*/
