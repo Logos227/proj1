@@ -2,6 +2,7 @@
 Student Name : Jiajia Yang
 Student Number : C3314189
 Engg1003 Assignment 1 
+Final Code
 */
 
 #include <stdio.h>
