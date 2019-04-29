@@ -8,16 +8,12 @@ Engg1003 Assignment 1
 #include <string.h>
 #include <stdlib.h>
 
-int CaesarEn(const char *message, char *output, int rotationAmount);//caesar cipher encryption function prototype
-int CaesarDe(const char *message, char *output, int rotationAmount);//caesar cipher decryption function prototype
-int SubEn(const char *message, char *output, const char *key); 
-int SubDe(const char *message, char *output, const char *key); 
+int CaesarEn( char *message, char *output, int rotationAmount);//caesar cipher encryption function prototype
+int CaesarDe( char *message, char *output, int rotationAmount);//caesar cipher decryption function prototype
+int SubEn( char *message, char *output, const char *key); //substitution Encryption function prototype
+int SubDe( char *message, char *output, const char *key); //substitution Decryption function prototype
 
-//int SubEn(char AlphabetSub[]);     //substitution Encryption function prototype
-//int SubDe(char DEAlphabetSub[]);   //substitution Decryption function prototype
-//int SetAlphabetSub(char SubTable[],char DESubTable[]);// set alphabet substitution function prototype
-
-int mian(){
+int main(){
     FILE *inputCode, *outputCode;
     inputCode = fopen("inputCode.txt", "r");
     outputCode = fopen("outputCode.txt", "w");
@@ -88,7 +84,6 @@ int mian(){
                 
             }
            
-         
          case 3:
          k = SubEn(message, output, key);
          if (k == 1)
@@ -132,14 +127,8 @@ int mian(){
    fclose(stdin);
    return k;
 }
-
-   
-  // below should connet with #include
-    //int CaesarEn(const char *message, char *output, int rotationAmount);//caesar cipher encryption function prototype
-    //this should be the main code
     
-    
-    int CaesarEn(const char *message,char *output, int rotationAmount){//这里没分号哦
+    int CaesarEn( char *message,char *output, int rotationAmount){
     int i;
     for (i = 0; i < strlen (message); i++){
         if (message[i]>='A' && message[i]<='Z'){
@@ -158,7 +147,7 @@ int mian(){
     }
     
     
-    int CaesarDe(const char *message, *char *output, int rotationAmount){
+    int CaesarDe(char *message, char *output, int rotationAmount){
         int i;
         for (i = 0; i < strlen (message); i++){
             
@@ -173,54 +162,15 @@ int mian(){
         }
         return 0;
     }
-        //next  code should in main code 
-        // printf("%s",message);
-        //printf("\n");
-        // here is the end of task2 
-       
-       
-        //printf("%s",message);
-        //printf("\n");
         
-   
-    /*here is provious sub function and mian code 以下是之前写的替换密码函数和mian
-    void SubEn(char AlphabetSub[]);   //substitution Encryption prototype
-    void SubDe(char DEAlphabetSub[]);   //substitution Decryption prototype
-    void SetAlphabetSub(char SubTable[],char DESubTable[]);// set alphabet substitution prototype 
-    int main(){ //【NOT SURE IN 9】----might be char AlphabetSub[] instead char SubTable[
-        int m;  // to choose encryption(m=1) of decryption(m=2)
-        char SubTable['z'+1]; //NOT SURE HERE---Substition table for Encryption-
-        char DESubTable['Z'+1];
-        printf("Enter 1 to encrypt,enter 2 to decrypt.");
-        scanf("%d",&m);//read m from console
-        SetAlphabetSub(SubTable, DESubTable);
-        switch(m){
-            case 1: SubEn(SubTable);
-            break;
-            case 2: SubDe(DESubTable);
-            break;
-            default:break;
-        }
-        return 0;
-    }
-    
-    */
-     int SubEn(const char *message, char *output, char *key){
-    //provious start -----void SubEn(char AlphabetSub[]){// Encryption function
-        /*
-        should exit in mian code
-        char message;
-        printf("Please enter message to be encrypted ");
-        gets(message);//read message
-        printf("Encrypted message is");
-        */
-        int i,j[1024];
-        
-        for (int i = 0; message[i] != '\0'; i++){
-            if(message[i]>='a' && meaaage[i]<='z'){
+
+     int SubEn( char *message, char *output, const char *key){
+ 
+        int i, j[1024];
+        for ( i = 0; message[i] != '\0'; i++){
+            if(message[i]>='a' && message[i]<='z'){
               j[i] = message[i] - 65;
               output[i] = key[j[i]];
-                
             }
             else
             output[i] = message[i];
@@ -229,35 +179,19 @@ int mian(){
         return 0;
          
      }
-              /*here is the provious code 
-              AlphabetSub[message[i]];
-              printf("%s",message);  
-            }
-            else
-            printf("%s",message);
-        }
-        printf("\n");
-    }
-    */
-    int SubDe(const char *message, char *output, char *key){
-        //void SubDe(char DEAlphabetSub[]){//Decryption function
-       /*
-        char message;
-        printf("Please enter message to be dencrypted ");
-        gets(message);//read message
-        printf("Dencrypted message is");
-        */
+             
+    int SubDe( char *message, char *output, const char *key){
         const char code[26]={"ABCDEFGHIJKLMNOPQRSTUVWXYZ"};
         char OriginalCode;
         char NewestCode;
         int i,m,n=0;
-        for (int i = 0; message[i] != '\0'; i++){
+        for (i = 0; message[i] != '\0'; i++){
             OriginalCode = key[i];
             NewestCode = code[i];
             if(message[i]>='A' && message[i]<='Z'){
               for (m = 0; m < 1025; m++){
             if (message[i] == OriginalCode){
-               outputText[i] = NewestCode;
+               output[i] = NewestCode;
                break;
                 
             }
@@ -279,14 +213,4 @@ int mian(){
    }
    return 0;
 }
-              /*
-              DEAlphabetSub[message[i]];
-              printf("%s",message);  
-            }
-            else
-            printf("%s",message);
-        }
-        printf("\n");
-   }
-   */
-  
+             
