@@ -158,7 +158,7 @@ int mian(){
     int CaesarEn(const char *message,/*char *output,//这个好像不用*/ int rotationAmount){//这里没分号哦
     // not sure if here should agg "char message[100], encrypted[100];"
     int i;
-    //上一行j, k, t;不知道为什么自己之前在这里int了jkt，现在发现后面好像也没用到啊
+    //上一行j, k, t;dont know why add jkt as "变量"in int 
     //Task1:Encryption of a message with a rotation cipher given the message text and rotation amount
     //while(1){   //为什么要加while(1)呢
         //next  4 code should in main code 
